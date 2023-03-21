@@ -23,13 +23,23 @@ private Vector3 previousLocation;
     {
 
     if((!stickToPlayer)) {
+        CheckDistance();      
+    }
+    else {
+         MoveWithBall();  
+    }
 
-       float distanceToPlayer = Vector3.Distance(transformPlayer.position, transform.position);
+        
+    }
+
+   void CheckDistance(){
+        float distanceToPlayer = Vector3.Distance(transformPlayer.position, transform.position);
         if(distanceToPlayer < 0.5){
             stickToPlayer = true;
         }
     }
-    else {
+
+   void MoveWithBall(){
         Vector2 currentLocation = new Vector2(transform.position.x,transform.position.y);
         speed = Vector2.Distance(currentLocation,previousLocation) / Time.deltaTime;
         transform.position = playerBallPosition.position;
@@ -37,6 +47,7 @@ private Vector3 previousLocation;
         previousLocation=currentLocation;
     }
 
-        
-    }
+
+
+
 }
