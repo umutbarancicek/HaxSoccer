@@ -44,6 +44,8 @@ public class Player : MonoBehaviour
                 ballAttachedToPlayer.stickToPlayer = false;
                 Rigidbody rigidbody = ballAttachedToPlayer.transform.gameObject.GetComponent<Rigidbody>();
                 Debug.Log(rigidbody);
+                Vector3 shootingdirection = transform.forward;
+                shootingdirection.y += 0.5f;
                 rigidbody.AddForce(transform.forward * 20f, ForceMode.Impulse);
                 ballAttachedToPlayer = null;
             }
