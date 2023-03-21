@@ -35,8 +35,7 @@ private Vector3 previousLocation;
     // Update is called once per frame
     void Update()
     {
-     playerBallPosition = transformPlayer.Find("Geometry").Find("BallPosition");
-    
+  
     if((!stickToPlayer)) {
         CheckDistance();      
     }
