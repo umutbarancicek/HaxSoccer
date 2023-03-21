@@ -1432,6 +1432,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   transformPlayer: {fileID: 799919792}
   playerBallPosition: {fileID: 972469841}
+  stickToPlayer: 0
 --- !u!1001 &1627489556
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2149,6 +2150,7 @@ MonoBehaviour:
   look: {x: 0, y: 0}
   jump: 0
   sprint: 0
+  shoot: 0
   analogMovement: 0
   cursorLocked: 1
   cursorInputForLook: 1
@@ -2349,6 +2351,7 @@ GameObject:
   - component: {fileID: 4416926083347132233}
   - component: {fileID: 4416926083347132232}
   - component: {fileID: 5885216829670671795}
+  - component: {fileID: 6982812147933622148}
   - component: {fileID: 135756641613574975}
   - component: {fileID: 4416926083347132239}
   m_Layer: 6
@@ -2557,6 +2560,18 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &6982812147933622148
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4416926083347132227}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee6b3eac839de4c71980194dd726921a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &8002264680806281515
 Transform:
   m_ObjectHideFlags: 0

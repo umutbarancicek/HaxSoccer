@@ -5,23 +5,38 @@ using UnityEngine;
 public class Ball : MonoBehaviour
 {
     
-private bool stickToPlayer;
+[SerializeField] private Transform transformPlayer; 
+
+// Do not touch this!!!!!!!
+[SerializeField] private Transform playerBallPosition; 
+
+public Player scriptPlayer;  
+public bool stickToPlayer;
 private float speed;
 private Vector3 previousLocation;
 
-[SerializeField] private Transform transformPlayer;
-[SerializeField] private Transform playerBallPosition;
+//public bool StickToPlayer { get => stickToPlayer; set => stickToPlayer = value; }
+
+ 
 
     // Start is called before the first frame update
     void Start()
     {
-        
+      scriptPlayer = transformPlayer.GetComponent<Player>();
+
+       //TODO:BUG -  I cant get ball position in here....
+      playerBallPosition = transformPlayer.Find("Geometry").Find("BallPosition");
+    
+       Debug.Log("Ball position");
+       Debug.Log(scriptPlayer.BallAttachedToPlayer);
+     
     }
 
     // Update is called once per frame
     void Update()
     {
-
+     playerBallPosition = transformPlayer.Find("Geometry").Find("BallPosition");
+    
     if((!stickToPlayer)) {
         CheckDistance();      
     }
@@ -35,7 +50,8 @@ private Vector3 previousLocation;
    void CheckDistance(){
         float distanceToPlayer = Vector3.Distance(transformPlayer.position, transform.position);
         if(distanceToPlayer < 0.5){
-            stickToPlayer = true;
+        stickToPlayer = true;
+        scriptPlayer.BallAttachedToPlayer = this;
         }
     }
 
