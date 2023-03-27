@@ -1,4 +1,4 @@
-using System.Collections;
+/**using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -17,21 +17,20 @@ private Vector3 previousLocation;
 public float hitForce = 1000f;
 private Rigidbody ballRigidbody;
 
-    //public bool StickToPlayer { get => stickToPlayer; set => stickToPlayer = value; }
+public bool StickToPlayer { get => stickToPlayer; set => stickToPlayer = value; }
 
 
 
-    // Start is called before the first frame update
     void Start()
     {
-        //scriptPlayer = transformPlayer.GetComponent<Player>();
+        
 
-        //TODO:BUG -  I cant get ball position in here....
-        // playerBallPosition = transformPlayer.Find("Geometry").Find("BallPosition");
-
+       
+         playerBallPosition = transformPlayer.Find("Geometry").Find("BallPosition");
+         scriptPlayer = transformPlayer.GetComponent<Player>();
         // Debug.Log("Ball position");
         //  Debug.Log(scriptPlayer.BallAttachedToPlayer);
-        Transform ballTransform = transformPlayer.Find("Ball");
+        /**Transform ballTransform = transformPlayer.Find("Ball");
         if (ballTransform != null)
         {
             Vector3 ballPosition = ballTransform.position;
@@ -48,9 +47,16 @@ private Rigidbody ballRigidbody;
     void Update()
     {
   
-    if((!stickToPlayer)) {          
-            CheckDistance();      
-    }
+    if((!stickToPlayer)) 
+        {
+            float distanceToPlayer = Vector3.Distance(transformPlayer.position, transformPlayer.position);
+            if(distanceToPlayer < 0.5) 
+            {
+                StickToPlayer = true;
+                scriptPlayer.BallAttachedToPlayer = this;
+            }
+            CheckDistance();
+                }
     else {
          MoveWithBall();
            
@@ -79,8 +85,8 @@ private Rigidbody ballRigidbody;
 
 
 
-}
-/**using System.Collections;
+}*/
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -160,7 +166,7 @@ public class Ball : MonoBehaviour
     }
 
 
-}*/
+}
 
 
 

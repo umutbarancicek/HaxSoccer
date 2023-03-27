@@ -41,12 +41,14 @@ public class Player : MonoBehaviour
 
         if (timeShot > 0)
         {
-            if (ballAttachedToPlayer != null && Time.time - timeShot > 0.2)
+            
+            if (ballAttachedToPlayer)
             {
                 ballAttachedToPlayer.stickToPlayer = false;
-                Rigidbody rigidbody = ballAttachedToPlayer.transform.gameObject.GetComponent<Rigidbody>();
-                Debug.Log(rigidbody);
+
+                Rigidbody rigidbody = ballAttachedToPlayer.transform.gameObject.GetComponent<Rigidbody>();    
                 rigidbody.AddForce(transform.forward * 20f, ForceMode.Impulse);
+
                 ballAttachedToPlayer = null;
             }
 
