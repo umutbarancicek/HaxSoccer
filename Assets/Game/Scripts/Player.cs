@@ -1,131 +1,102 @@
-
 using StarterAssets;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-
+    #region References
     private StarterAssetsInputs starterAssetsInputs;
-    private Ball ballAttachedToPlayer;
     private Animator animator;
-    private float timeShot;
-    public const int ANIMATION_LAYER_SHOOT = 1;
+    private CharacterController characterController;
+    #endregion
 
-    public Ball BallAttachedToPlayer { get => ballAttachedToPlayer; set => ballAttachedToPlayer = value; }
+    #region Text Mesh Pro
 
-    void Start()
-    {
-        starterAssetsInputs = GetComponent<StarterAssetsInputs>();
-        animator = GetComponent<Animator>();
-    }
+    [SerializeField] private TextMeshProUGUI textScore;
+    [SerializeField] private TextMeshProUGUI textGoal;
+    #endregion
 
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.X))
-        {
-            Debug.Log("Shoot button pressed");
-            starterAssetsInputs.shoot = true;
-        }
+    #region Audio Sources
+    // TODO : BUSRA OR SIMGE - IMPLEMENT AUDIO
+    #endregion
 
-        if (starterAssetsInputs.shoot)
-        {
-            Debug.Log("starterAssetsInputs.shoot");
-            starterAssetsInputs.shoot = false;
-            timeShot = Time.time;
-
-            animator.Play("Shoot", ANIMATION_LAYER_SHOOT, 0f);
-            animator.SetLayerWeight(ANIMATION_LAYER_SHOOT, 1f);
-        }
-
-        if (timeShot > 0)
-        {
-            if (ballAttachedToPlayer != null && Time.time - timeShot > 0.2)
-            {
-                ballAttachedToPlayer.stickToPlayer = false;
-                Rigidbody rigidbody = ballAttachedToPlayer.transform.gameObject.GetComponent<Rigidbody>();
-                Debug.Log(rigidbody);
-                rigidbody.AddForce(transform.forward * 20f, ForceMode.Impulse);
-                ballAttachedToPlayer = null;
-            }
-
-            if (Time.time - timeShot > 0.5)
-            {
-                timeShot = -1f;
-            }
-        }
-        else
-        {
-            animator.SetLayerWeight(ANIMATION_LAYER_SHOOT, Mathf.Lerp(animator.GetLayerWeight(ANIMATION_LAYER_SHOOT), 0f, Time.deltaTime * 10f));
-        }
-
-    }
-}
-
-/**using StarterAssets;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class Player : MonoBehaviour
-{
-
-    private StarterAssetsInputs starterAssetsInputs;
+    #region Ball
     private Ball ballAttachedToPlayer;
-    private Animator animator;
-    private float timeShot;
-    public const int ANIMATION_LAYER_SHOOT = 1;
-
     public Ball BallAttachedToPlayer { get => ballAttachedToPlayer; set => ballAttachedToPlayer = value; }
+    #endregion
+    
+    #region Variables
+    [SerializeField] private float shootPower;
+    private float timeShot;
+    private const int LAYER_SHOOT = 1;
+    private float distanceSinceLastDribble;
+    private float goalTextColorAlpha;
+    private int myScore, otherScore; 
+    #endregion
     // Start is called before the first frame update
     void Start()
     {
-    starterAssetsInputs = GetComponent<StarterAssetsInputs>();
-       animator = GetComponent<Animator>();
+      
+        characterController = GetComponent<CharacterController>();
+        starterAssetsInputs = GetComponent<StarterAssetsInputs>();
+        animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
     void Update()
     {
-      if (starterAssetsInputs.shoot)
+        float speed = new Vector3(characterController.velocity.x, 0, characterController.velocity.z).magnitude;
+        if (starterAssetsInputs.shoot)
         {
-            Debug.Log("starterAssetsInputs.shoot");
             starterAssetsInputs.shoot = false;
             timeShot = Time.time;
-            
-            animator.Play("Shoot", ANIMATION_LAYER_SHOOT, 0f);
-            animator.SetLayerWeight(ANIMATION_LAYER_SHOOT, 1f);
+            animator.Play("Shoot", LAYER_SHOOT, 0f);
+            animator.SetLayerWeight(LAYER_SHOOT, 1f);
         }
         if (timeShot > 0)
         {
             // shoot ball
-            if(ballAttachedToPlayer != null && Time.time - timeShot > 0.2)
+            if( ballAttachedToPlayer != null && Time.time - timeShot > 0.2)
             {
-
-                ballAttachedToPlayer.stickToPlayer = false;
+                
+                ballAttachedToPlayer.StickToPlayer = false;
                 Rigidbody rigidbody = ballAttachedToPlayer.transform.gameObject.GetComponent<Rigidbody>();
-                Debug.Log(rigidbody);
-                rigidbody.AddForce(transform.forward * 20f, ForceMode.Impulse);
+                Vector3 shootdirection = transform.forward;
+                shootdirection.y += 0.3f;
+                rigidbody.AddForce(shootdirection * shootPower, ForceMode.Impulse);
                 ballAttachedToPlayer = null;
             }
 
             // finished kicking animation
             if(Time.time - timeShot > 0.5)
             {
-                timeShot = -1f;
+                timeShot = 0;
             }
         }
         else
         {
-            //TODO: stop animation
-            animator.SetLayerWeight(ANIMATION_LAYER_SHOOT, Mathf.Lerp(animator.GetLayerWeight(ANIMATION_LAYER_SHOOT), 0f, Time.deltaTime * 10f));
+            animator.SetLayerWeight(LAYER_SHOOT, Mathf.Lerp(animator.GetLayerWeight(LAYER_SHOOT), 0f, Time.deltaTime * 10f));
         }
-        
+
+        if (goalTextColorAlpha>0)
+        {
+            goalTextColorAlpha -= Time.deltaTime;
+            textGoal.alpha = goalTextColorAlpha;
+            textGoal.fontSize = 200 - (goalTextColorAlpha * 120);
+        }
+
+        if (ballAttachedToPlayer!=null)
+        {
+            distanceSinceLastDribble += speed * Time.deltaTime;
+            if (distanceSinceLastDribble > 3)
+            {
+           
+                distanceSinceLastDribble = 0;
+            }
+        }
     }
-}*/
 
-
-
-
-
+   
+}
