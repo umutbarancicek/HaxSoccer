@@ -10,11 +10,7 @@ public class Player : MonoBehaviour
     private StarterAssetsInputs starterAssetsInputs;
     private Animator animator;
     private CharacterController characterController;
-    private AudioSource soundCheer;
-    private AudioSource soundKick;
     private CharacterController controller;
-    private float distanceSinceLastDribble;
-
     #endregion
 
     #region Text Mesh Pro
@@ -24,7 +20,8 @@ public class Player : MonoBehaviour
     #endregion
 
     #region Audio Sources
-    // TODO : BUSRA OR SIMGE - IMPLEMENT AUDIO  
+     [SerializeField] private AudioSource soundCheer;
+     [SerializeField] private AudioSource soundKick;
     #endregion
 
     #region Ball
