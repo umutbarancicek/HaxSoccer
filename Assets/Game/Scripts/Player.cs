@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
@@ -13,10 +14,11 @@ public class Player : MonoBehaviour
     private CharacterController controller;
     #endregion
 
-    #region Text Mesh Pro
-
-    [SerializeField] private TextMeshProUGUI textScore;
-    [SerializeField] private TextMeshProUGUI textGoal;
+    #region Score
+    [SerializeField] private Text textScore;
+    [SerializeField] private Text textGoal;
+    private int myScore, otherScore;
+    private float goalTextColorAlpha;
     #endregion
 
     #region Audio Sources
@@ -34,8 +36,7 @@ public class Player : MonoBehaviour
     private float timeShot;
     private const int LAYER_SHOOT = 1;
     private float distanceSinceLastDribble;
-    private float goalTextColorAlpha;
-    private int myScore, otherScore; 
+ 
     #endregion
     // Start is called before the first frame update
     void Start()
@@ -90,8 +91,8 @@ public class Player : MonoBehaviour
         if (goalTextColorAlpha>0)
         {
             goalTextColorAlpha -= Time.deltaTime;
-            textGoal.alpha = goalTextColorAlpha;
-            textGoal.fontSize = 200 - (goalTextColorAlpha * 120);
+            // textGoal.alpha = goalTextColorAlpha;
+            //textGoal.fontSize = 200 - (goalTextColorAlpha * 120);
         }
 
         if (ballAttachedToPlayer!=null)
