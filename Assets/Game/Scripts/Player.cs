@@ -10,6 +10,7 @@ public class Player : MonoBehaviour
     private StarterAssetsInputs starterAssetsInputs;
     private Animator animator;
     private CharacterController characterController;
+    private CharacterController controller;
     #endregion
 
     #region Text Mesh Pro
@@ -19,7 +20,8 @@ public class Player : MonoBehaviour
     #endregion
 
     #region Audio Sources
-    // TODO : BUSRA OR SIMGE - IMPLEMENT AUDIO
+     [SerializeField] private AudioSource soundCheer;
+     [SerializeField] private AudioSource soundKick;
     #endregion
 
     #region Ball
@@ -42,11 +44,16 @@ public class Player : MonoBehaviour
         characterController = GetComponent<CharacterController>();
         starterAssetsInputs = GetComponent<StarterAssetsInputs>();
         animator = GetComponent<Animator>();
+        soundCheer = GameObject.Find("Sound/cheer").GetComponent<AudioSource>();  //b
+        soundKick = GameObject.Find("Sound/kick").GetComponent<AudioSource>();    //b
+        controller = GetComponent<CharacterController>();
+
     }
 
     // Update is called once per frame
     void Update()
     {
+        
         float speed = new Vector3(characterController.velocity.x, 0, characterController.velocity.z).magnitude;
         if (starterAssetsInputs.shoot)
         {
@@ -61,7 +68,9 @@ public class Player : MonoBehaviour
             if( ballAttachedToPlayer != null && Time.time - timeShot > 0.2)
             {
                 
+                soundKick.Play();
                 ballAttachedToPlayer.StickToPlayer = false;
+
                 Rigidbody rigidbody = ballAttachedToPlayer.transform.gameObject.GetComponent<Rigidbody>();
                 Vector3 shootdirection = transform.forward;
                 shootdirection.y += 0.3f;
@@ -96,6 +105,11 @@ public class Player : MonoBehaviour
                 distanceSinceLastDribble = 0;
             }
         }
+    }
+
+    private void UpdateScore()
+    {
+        soundCheer.Play();
     }
 
    
