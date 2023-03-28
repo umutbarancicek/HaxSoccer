@@ -44,8 +44,6 @@ public class Player : MonoBehaviour
         characterController = GetComponent<CharacterController>();
         starterAssetsInputs = GetComponent<StarterAssetsInputs>();
         animator = GetComponent<Animator>();
-        soundCheer = GameObject.Find("Sound/cheer").GetComponent<AudioSource>();  //b
-        soundKick = GameObject.Find("Sound/kick").GetComponent<AudioSource>();    //b
         controller = GetComponent<CharacterController>();
 
     }
@@ -107,9 +105,21 @@ public class Player : MonoBehaviour
         }
     }
 
+   public void IncreaseMyScore()
+    {
+        myScore++;
+        UpdateScore();
+    }
+    public void IncreaseOtherScore()
+    {
+        otherScore++;
+        UpdateScore();
+    }
+
     private void UpdateScore()
     {
         soundCheer.Play();
+        textScore.text = "Score: " + myScore + "-" + otherScore;
     }
 
    
