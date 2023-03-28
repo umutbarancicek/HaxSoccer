@@ -2960,6 +2960,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   textScore: {fileID: 0}
   textGoal: {fileID: 0}
+  soundCheer: {fileID: 169412438}
+  soundKick: {fileID: 1510577422}
   shootPower: 0
 --- !u!4 &8002264680806281515
 Transform:
