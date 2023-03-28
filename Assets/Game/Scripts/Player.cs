@@ -110,8 +110,6 @@ public class Player : MonoBehaviour
     private void UpdateScore()
     {
         soundCheer.Play();
-        textScore.text = "Score: " + myScore.toString() + "-" + otherScore.toString();
-        goalTextColorAlpha = lf;
     }
 
    
