@@ -4,43 +4,25 @@ using UnityEngine;
 
 public class GoalDetector : MonoBehaviour
 {
-    [SerializeField] private Player scriptPlayer;
-    [SerializeField] private GameObject goalText;
+    [SerializeField] private Game scriptGame;
 
-
-  void Start(){
-    goalText.SetActive(false);
-  }
-
-
-
-   IEnumerator ToggleShowGoalText(int second){
-    goalText.SetActive(true);
-   yield return new WaitForSeconds(second);
-   goalText.SetActive(false);
-  
- }
+    public void Awake()
+    {
+        scriptGame = GameObject.Find("Scripts").GetComponent<Game>();
+    }
 
     public void OnTriggerEnter(Collider other)
     {
         if (other.GetComponent<Ball>() != null)
         {
-
-
-     
             if (name.Equals("GoalDetector1"))
             {
-                scriptPlayer.IncreaseMyScore();
-              
+                scriptGame.ScoreGoal(0);
             }
             else
             {
-                scriptPlayer.IncreaseOtherScore();
-
+                scriptGame.ScoreGoal(1);
             }
-                 StartCoroutine(ToggleShowGoalText(2));
-
-            
         }
     }
 }
