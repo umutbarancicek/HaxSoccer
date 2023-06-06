@@ -1,4 +1,5 @@
 ﻿ using UnityEngine;
+ using Photon.Pun;
 #if ENABLE_INPUT_SYSTEM 
 using UnityEngine.InputSystem;
 #endif
@@ -122,9 +123,14 @@ namespace StarterAssets
             }
         }
 
+        private PhotonView PV;
 
         private void Awake()
         {
+            PV = GetComponent<PhotonView>();
+            if(PV.IsMine == false){
+                return;
+            }
             // get a reference to our main camera
             if (_mainCamera == null)
             {
@@ -134,6 +140,8 @@ namespace StarterAssets
 
         private void Start()
         {
+            if(PV.IsMine == false){return;}
+
             _cinemachineTargetYaw = CinemachineCameraTarget.transform.rotation.eulerAngles.y;
             
             _hasAnimator = TryGetComponent(out _animator);
@@ -154,6 +162,9 @@ namespace StarterAssets
 
         private void Update()
         {
+            if(PV.IsMine == false){
+                return;
+            }
             _hasAnimator = TryGetComponent(out _animator);
 
             JumpAndGravity();
@@ -163,6 +174,9 @@ namespace StarterAssets
 
         private void LateUpdate()
         {
+            if(PV.IsMine==false){
+                return;
+            }
             CameraRotation();
         }
 

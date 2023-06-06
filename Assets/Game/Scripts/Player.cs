@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Photon.Pun;
 
 public class Player : MonoBehaviour
 {
@@ -46,11 +47,17 @@ public class Player : MonoBehaviour
 
     [SerializeField] private float shootMultiplier = 2f;
 
-
     #endregion
+
+    private PhotonView photon;
     // Start is called before the first frame update
     void Start()
     {
+
+        photon = GetComponent<PhotonView>();
+        if(photon.IsMine == false){
+            return;
+        }
 
         characterController = GetComponent<CharacterController>();
         starterAssetsInputs = GetComponent<StarterAssetsInputs>();
@@ -66,6 +73,9 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(photon.IsMine == false){
+            return;
+        }
         float speed = new Vector3(characterController.velocity.x, 0, characterController.velocity.z).magnitude;
 
         if (Input.GetKeyDown(KeyCode.Return))
@@ -104,7 +114,7 @@ public class Player : MonoBehaviour
             // shoot ball
             if (ballAttachedToPlayer != null && Time.time - timeShot > 0.2)
             {
-                soundKick.Play();
+                //soundKick.Play();
                 ballAttachedToPlayer.StickToPlayer = false;
 
                 Rigidbody rigidbody = ballAttachedToPlayer.transform.gameObject.GetComponent<Rigidbody>();

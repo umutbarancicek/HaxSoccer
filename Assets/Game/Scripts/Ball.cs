@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 public class Ball : MonoBehaviour
 {
@@ -11,14 +12,26 @@ public class Ball : MonoBehaviour
     private Vector2 previousLocation;
     private float speed;
 
+    private PhotonView PV;
+
     public bool StickToPlayer { get => stickToPlayer; set => stickToPlayer = value; }
 
 
     // Start is called before the first frame update
     void Start()
-    {
-        //scriptPlayer = transformPlayer.GetComponent<Player>();
-        //playerBallPosition = transformPlayer.Find("BallLocation");
+    {    
+            GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+            foreach (GameObject player in players)
+            {
+                PhotonView playerPV = player.GetComponent<PhotonView>();
+                if (playerPV != null && playerPV.IsMine)
+                {
+                    scriptPlayer = player.GetComponent<Player>();
+                    transformPlayer = player.transform.GetChild(1).GetChild(0);
+                    playerBallPosition = player.transform.GetChild(1).GetChild(1);
+                    break;
+                }
+            }   
     }
 
     // Update is called once per frame
